@@ -685,6 +685,8 @@ class Other(BaseRequestHandler):
 		else:
 			self.error(404)
 
+            
+#add analytics page
 class Record(BaseRequestHandler):
 	def get(self):
 		if self.request.GET.has_key("game") and self.request.GET.has_key("url"):
@@ -696,11 +698,11 @@ class Record(BaseRequestHandler):
 			records.save()
 		else:
 			records=Records.all()
-			for record in records:
-				print record.game
-				print record.url
-				print record.date
-			self.render('index',{})
+			#for record in records:
+				#print record.game
+				#print record.url
+				#print record.date
+			self.render('record',{'records':records})
 							
 def getZipHandler(**args):
 	return ('/xheditor/(.*)',zipserve.make_zip_handler('''D:\\work\\micolog\\plugins\\xheditor\\xheditor.zip'''))
