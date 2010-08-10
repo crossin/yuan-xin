@@ -446,8 +446,7 @@ class SitemapHandler(BaseRequestHandler):
 
 ##		self.response.headers['Content-Type'] = 'application/atom+xml'
 		self.render2('views/sitemap.xml',{'urlset':urls})
-
-
+		
 class Error404(BaseRequestHandler):
 	@cache(time=36000)
 	def get(self,slug=None):
@@ -686,6 +685,23 @@ class Other(BaseRequestHandler):
 		else:
 			self.error(404)
 
+class Record(BaseRequestHandler):
+	def get(self):
+		if self.request.GET.has_key("game") and self.request.GET.has_key("url"):
+			game = self.request.GET["game"]
+			url = self.request.GET["url"]
+			print(game)
+			print(url)
+			records=Records(game=game, url=url)
+			records.save()
+		else:
+			records=Records.all()
+			for record in records:
+				print record.game
+				print record.url
+				print record.date
+			self.render('index',{})
+							
 def getZipHandler(**args):
 	return ('/xheditor/(.*)',zipserve.make_zip_handler('''D:\\work\\micolog\\plugins\\xheditor\\xheditor.zip'''))
 
@@ -708,6 +724,8 @@ def main():
 			('/', MainPage),
 			('/do/(\w+)', do_action),
 			('/e/(.*)',Other),
+			#('/record/(?P<game>.*)/(?P<url>.+)', Record),
+			('/record', Record),
 			('/([\\w\\-\\./%]+)', SinglePost),
 			('.*',Error404),
 			]

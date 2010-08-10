@@ -870,5 +870,8 @@ try:
 except:
 	pass
 
-
+class Records(db.Model):
+	game = db.StringProperty()
+	url = db.StringProperty()
+	date = db.DateTimeProperty(auto_now_add=True)
 
