@@ -694,14 +694,10 @@ class Record(BaseRequestHandler):
 			url = self.request.GET["url"]
 			print(game)
 			print(url)
-			records=Records(game=game, url=url)
+			records=Records(game=game, url=url, date=datetime.utcnow()+timedelta(hours=+8))
 			records.save()
 		else:
 			records=Records.all()
-			#for record in records:
-				#print record.game
-				#print record.url
-				#print record.date
 			self.render('record',{'records':records})
 							
 def getZipHandler(**args):
